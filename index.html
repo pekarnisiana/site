@@ -51,17 +51,17 @@ nav {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000; /* Increased z-index to ensure it's always on top */
   padding: 1.1rem 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease; /* Smoother transition specific properties */
+  transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
   background: transparent;
 }
 
 nav.scrolled {
-  background: rgba(253, 248, 240, 0.98); /* Slightly more opaque for better readability */
+  background: rgba(253, 248, 240, 0.98);
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 30px rgba(0,0,0,0.08);
   padding: 0.7rem 2.5rem;
@@ -84,7 +84,7 @@ nav.scrolled {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: color 0.3s;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5); /* Increased shadow for initial visibility */
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   position: relative;
   white-space: nowrap;
 }
@@ -125,19 +125,26 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   cursor: pointer;
-  z-index: 101;
+  z-index: 1001;
+  padding: 10px; /* Touch target size */
 }
 
 .hamburger span {
-  width: 28px;
+  width: 26px;
   height: 2px;
   background: white;
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
+  border-radius: 2px;
 }
 
 nav.scrolled .hamburger span { background: var(--brown); }
+
+/* Hamburger Animation State */
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); background: var(--brown); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); background: var(--brown); }
 
 /* ===== HERO ===== */
 .hero {
@@ -185,16 +192,14 @@ nav.scrolled .hamburger span { background: var(--brown); }
   align-items: center;
 }
 
-/* UPDATED HERO LOGO STYLE */
 .hero-logo {
   width: auto;
-  max-width: 380px; /* Increased Size */
-  max-height: 240px; /* Increased Size */
+  max-width: 380px;
+  max-height: 240px;
   margin-bottom: 1.5rem;
-  animation: fadeInDown 2s ease-out; /* Slower Animation */
+  animation: fadeInDown 2s ease-out;
   filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
   object-fit: contain;
-  /* Fading Gradient Mask */
   -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
   opacity: 0.95;
@@ -786,49 +791,65 @@ footer .copyright {
   .locations-grid { grid-template-columns: 1fr; max-width: 550px; }
   .values-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 400px; }
   
-  /* --- NEW MOBILE NAV (TABS STYLE) --- */
-  .hamburger { display: none !important; }
+  /* --- PROFESSIONAL MOBILE MENU --- */
+  
+  nav { justify-content: flex-end; } /* Push hamburger to right */
 
-  nav {
-    justify-content: center;
-    padding: 0.8rem 1rem; /* Adjust padding for mobile bar */
-    transition: background-color 0.4s ease, box-shadow 0.4s ease; /* No height jump */
+  .hamburger {
+    display: flex; /* Visible on mobile */
   }
 
-  nav.scrolled {
-    padding: 0.8rem 1rem; /* Keep padding consistent on scroll to prevent jump */
-  }
-
+  /* Mobile Dropdown Menu */
   .nav-links {
-    display: flex; /* Show tabs */
-    position: static; /* Remove fixed overlay */
-    background: transparent;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center; /* Center tabs */
+    position: absolute;
+    top: 100%;
+    left: 0;
     width: 100%;
-    gap: 1.2rem; /* Spacing between tabs */
-    overflow-x: auto; /* Enable horizontal scroll if screen too narrow */
-    white-space: nowrap; /* Keep tabs on one line */
-    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
-    padding-bottom: 2px; /* For scrollbar breathing room */
+    background: rgba(253, 248, 240, 0.98); /* Cream/White background */
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2.5rem 0;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    
+    /* Animation State: Hidden */
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
-  /* Hide scrollbar for cleaner look */
-  .nav-links::-webkit-scrollbar { display: none; }
 
+  /* Animation State: Visible */
+  .nav-links.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  /* Link Styling in Menu */
   .nav-links a {
-    color: white !important; /* Force white initially */
-    font-size: 0.8rem; /* Slightly smaller font */
-    text-shadow: 0 1px 3px rgba(0,0,0,0.6); /* Ensure readable over images */
-  }
-  
-  nav.scrolled .nav-links a {
-    color: var(--brown) !important; /* Brown on scroll */
+    color: var(--brown) !important;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
     text-shadow: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease;
   }
   
-  /* Hide the dots on mobile to save space */
+  /* Staggered animation for links appearing */
+  .nav-links.open a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .nav-links.open li:nth-child(1) a { transition-delay: 0.1s; }
+  .nav-links.open li:nth-child(3) a { transition-delay: 0.15s; }
+  .nav-links.open li:nth-child(5) a { transition-delay: 0.2s; }
+  .nav-links.open li:nth-child(7) a { transition-delay: 0.25s; }
+  .nav-links.open li:nth-child(9) a { transition-delay: 0.3s; }
+
   .nav-dot { display: none; }
   
   /* UPDATED Mobile Logo Size Optimization */
@@ -846,9 +867,6 @@ footer .copyright {
   .partner-card { width: 100%; max-width: 100%; }
   .contact-details { gap: 2rem; }
   
-  /* Ensure tabs fit on very small screens */
-  .nav-links { justify-content: flex-start; gap: 1rem; }
-
   /* UPDATED Further logo refinement for small screens */
   .hero-logo { max-width: 190px; }
 }
@@ -858,6 +876,7 @@ footer .copyright {
 
 <!-- Navigation -->
 <nav id="navbar">
+  <!-- Restored Original Structure -->
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">За нас</a></li>
     <li><span class="nav-dot"></span></li>
@@ -869,7 +888,8 @@ footer .copyright {
     <li><span class="nav-dot"></span></li>
     <li><a href="#contact">Контакти</a></li>
   </ul>
-  <!-- Hamburger removed as requested -->
+  
+  <!-- Restored Hamburger -->
   <div class="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
@@ -1074,17 +1094,47 @@ footer .copyright {
 
 <script>
 const nav = document.getElementById('navbar');
+const navLinks = document.getElementById('navLinks');
+const hamburger = document.querySelector('.hamburger');
+
+// Scroll effect logic
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 });
 
+// Toggle Menu
 function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
-}
-function closeMenu() {
-  document.getElementById('navLinks').classList.remove('open');
+  navLinks.classList.toggle('open');
+  hamburger.classList.toggle('active');
 }
 
+// Close menu function
+function closeMenu() {
+  navLinks.classList.remove('open');
+  hamburger.classList.remove('active');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  // Check if click is NOT inside navLinks and NOT on the hamburger
+  if (!navLinks.contains(e.target) && !hamburger.contains(e.target) && navLinks.classList.contains('open')) {
+    closeMenu();
+  }
+});
+
+// Smooth scroll & close menu on link click
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      closeMenu(); // Close the menu after clicking a link
+    }
+  });
+});
+
+// Reveal Animation Observer
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -1092,15 +1142,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-    closeMenu();
-  });
-});
 </script>
 
 </body>
