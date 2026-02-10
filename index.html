@@ -44,12 +44,12 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.4s ease;
+  transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease; /* Smoother transition specific properties */
   background: transparent;
 }
 
 nav.scrolled {
-  background: rgba(253, 248, 240, 0.95);
+  background: rgba(253, 248, 240, 0.98); /* Slightly more opaque for better readability */
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 30px rgba(0,0,0,0.08);
   padding: 0.7rem 2.5rem;
@@ -60,6 +60,8 @@ nav.scrolled {
   gap: 2.5rem;
   list-style: none;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
@@ -70,8 +72,9 @@ nav.scrolled {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: color 0.3s;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5); /* Increased shadow for initial visibility */
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-links a::after {
@@ -101,7 +104,7 @@ nav.scrolled .nav-links a:hover { color: var(--gold); }
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.5);
   flex-shrink: 0;
 }
 
@@ -771,23 +774,50 @@ footer .copyright {
   .locations-grid { grid-template-columns: 1fr; max-width: 550px; }
   .values-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 400px; }
   
-  .nav-links {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(61,43,31,0.97);
-    flex-direction: column;
-    align-items: center;
+  /* --- NEW MOBILE NAV (TABS STYLE) --- */
+  .hamburger { display: none !important; }
+
+  nav {
     justify-content: center;
-    gap: 2.5rem;
+    padding: 0.8rem 1rem; /* Adjust padding for mobile bar */
+    transition: background-color 0.4s ease, box-shadow 0.4s ease; /* No height jump */
+  }
+
+  nav.scrolled {
+    padding: 0.8rem 1rem; /* Keep padding consistent on scroll to prevent jump */
+  }
+
+  .nav-links {
+    display: flex; /* Show tabs */
+    position: static; /* Remove fixed overlay */
+    background: transparent;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* Center tabs */
+    width: 100%;
+    gap: 1.2rem; /* Spacing between tabs */
+    overflow-x: auto; /* Enable horizontal scroll if screen too narrow */
+    white-space: nowrap; /* Keep tabs on one line */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    padding-bottom: 2px; /* For scrollbar breathing room */
   }
   
-  .nav-links.open { display: flex; }
-  .nav-links.open a { color: white !important; font-size: 1.2rem; text-shadow: none; }
-  .nav-links.open .nav-dot { display: none; }
+  /* Hide scrollbar for cleaner look */
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-links a {
+    color: white !important; /* Force white initially */
+    font-size: 0.8rem; /* Slightly smaller font */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6); /* Ensure readable over images */
+  }
   
-  .hamburger { display: flex; position: absolute; right: 2rem; }
-  nav { justify-content: flex-end; }
+  nav.scrolled .nav-links a {
+    color: var(--brown) !important; /* Brown on scroll */
+    text-shadow: none;
+  }
+  
+  /* Hide the dots on mobile to save space */
+  .nav-dot { display: none; }
   
   /* UPDATED Mobile Logo Size Optimization */
   .hero-logo { max-width: 240px; }
@@ -804,6 +834,9 @@ footer .copyright {
   .partner-card { width: 100%; max-width: 100%; }
   .contact-details { gap: 2rem; }
   
+  /* Ensure tabs fit on very small screens */
+  .nav-links { justify-content: flex-start; gap: 1rem; }
+
   /* UPDATED Further logo refinement for small screens */
   .hero-logo { max-width: 190px; }
 }
@@ -824,6 +857,7 @@ footer .copyright {
     <li><span class="nav-dot"></span></li>
     <li><a href="#contact">Контакти</a></li>
   </ul>
+  <!-- Hamburger removed as requested -->
   <div class="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
