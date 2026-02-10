@@ -170,14 +170,19 @@ nav.scrolled .hamburger span { background: var(--brown); }
   align-items: center;
 }
 
+/* UPDATED HERO LOGO STYLE */
 .hero-logo {
   width: auto;
-  max-width: 280px;
-  max-height: 160px;
+  max-width: 380px; /* Increased Size */
+  max-height: 240px; /* Increased Size */
   margin-bottom: 1.5rem;
-  animation: fadeInDown 1s ease-out;
+  animation: fadeInDown 2s ease-out; /* Slower Animation */
   filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
   object-fit: contain;
+  /* Fading Gradient Mask */
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  opacity: 0.95;
 }
 
 .hero h1 {
@@ -603,18 +608,17 @@ section { padding: 7rem 2rem; }
 .partners-grid {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   gap: 2.5rem;
   flex-wrap: wrap;
 }
 
 .partner-card {
-  flex: 1;
-  min-width: 260px;
-  max-width: 340px;
+  flex: 0 1 auto; /* Allow shrink/grow but default to auto */
+  width: 260px;   /* Fixed width for just logos */
   background: white;
   border-radius: 20px;
-  padding: 3rem 2rem 2.5rem;
+  padding: 2rem;  /* Reduced padding for logo-only view */
   text-align: center;
   box-shadow: 0 8px 35px rgba(0,0,0,0.06);
   border: 1px solid rgba(200,150,30,0.1);
@@ -622,6 +626,7 @@ section { padding: 7rem 2rem; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .partner-card:hover {
@@ -631,12 +636,12 @@ section { padding: 7rem 2rem; }
 }
 
 .partner-logo-wrap {
-  width: 140px; /* Increased slightly for images */
+  width: 140px;
   height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0; /* Removed margin since text is gone */
 }
 
 .partner-logo-wrap img {
@@ -645,36 +650,9 @@ section { padding: 7rem 2rem; }
   object-fit: contain;
 }
 
-.partner-card h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  color: var(--brown);
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-}
-
-.partner-card p {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  line-height: 1.6;
-}
-
-.partner-link {
-  display: inline-block;
-  margin-top: 1.2rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--gold);
+.partner-logo-link {
+  display: block;
   text-decoration: none;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  transition: color 0.3s;
-  border-bottom: 1px solid transparent;
-}
-
-.partner-link:hover {
-  color: var(--gold-dark);
-  border-bottom-color: var(--gold-dark);
 }
 
 /* ===== CONTACT ===== */
@@ -811,8 +789,8 @@ footer .copyright {
   .hamburger { display: flex; position: absolute; right: 2rem; }
   nav { justify-content: flex-end; }
   
-  /* Mobile Logo Size Optimization */
-  .hero-logo { max-width: 180px; }
+  /* UPDATED Mobile Logo Size Optimization */
+  .hero-logo { max-width: 240px; }
 }
 
 @media (max-width: 600px) {
@@ -826,8 +804,8 @@ footer .copyright {
   .partner-card { width: 100%; max-width: 100%; }
   .contact-details { gap: 2rem; }
   
-  /* Further logo refinement for small screens */
-  .hero-logo { max-width: 150px; }
+  /* UPDATED Further logo refinement for small screens */
+  .hero-logo { max-width: 190px; }
 }
 </style>
 </head>
@@ -918,7 +896,7 @@ footer .copyright {
     <!-- Label Updated Here -->
     <div class="product-card reveal reveal-delay-1">
       <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/4.jpg" alt="Митове с Кренвирш" loading="lazy">
-      <div class="overlay"><span>Митове с Кренвирш</span></div>
+      <div class="overlay"><span>Мит с kренвирш</span></div>
     </div>
     <div class="product-card reveal reveal-delay-2">
       <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/5.jpg" alt="Руло баници" loading="lazy">
@@ -941,27 +919,27 @@ footer .copyright {
     <div class="location-card reveal">
       <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/ob1.jpg" alt="Обект 1" loading="lazy">
       <div class="location-info">
-        <h3>Пекарна Сиана — Обект 1</h3>
+        <h3>Кичука</h3>
         <p>Топли закуски, изпечени на място. Заповядайте при нас!</p>
-        <div class="hours">🕐 Работно време: 06:00 — 20:00</div>
+        <div class="hours">🕐 Работно време: 06:00 — 15:00</div>
       </div>
     </div>
     <!-- Обект 2 -->
     <div class="location-card reveal reveal-delay-1">
       <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/ob2.jpg" alt="Обект 2" loading="lazy">
       <div class="location-info">
-        <h3>Пекарна Сиана — Обект 2</h3>
+        <h3>Аджисана</h3>
         <p>Семейна пекарна с разнообразие от баници и хлябове.</p>
-        <div class="hours">🕐 Работно време: 06:00 — 20:00</div>
+        <div class="hours">🕐 Работно време: 06:00 — 15:00</div>
       </div>
     </div>
     <!-- Обект 3 (NEW) -->
     <div class="location-card reveal reveal-delay-2">
       <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/ob3.jpg" alt="Обект 3" loading="lazy">
       <div class="location-info">
-        <h3>Пекарна Сиана — Обект 3</h3>
+        <h3>Тракия</h3>
         <p>Нашият нов уютен обект. Очакваме ви с нетърпение!</p>
-        <div class="hours">🕐 Работно време: 06:00 — 20:00</div>
+        <div class="hours">🕐 Работно време: 06:00 — 15:00</div>
       </div>
     </div>
   </div>
@@ -997,22 +975,20 @@ footer .copyright {
   <h2 class="section-title">Нашите партньори</h2>
   <div class="section-divider"></div>
   <div class="partners-container">
-    <p class="partners-intro">Горди сме от партньорствата си с компании, които споделят нашите ценности за качество и автентичност.</p>
     <div class="partners-grid">
+      <!-- Partner 1 -->
       <div class="partner-card reveal">
-        <div class="partner-logo-wrap">
-          <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/part1.jpg" alt="Партньор 1">
-        </div>
-        <h3>На ръка</h3>
-        <p>Качествени продукти, създадени с любов и внимание към детайла.</p>
-        <a href="https://visk.bg" class="partner-link" target="_blank" rel="noopener">visk.bg →</a>
+        <a href="https://visk.bg" target="_blank" rel="noopener" class="partner-logo-link">
+          <div class="partner-logo-wrap">
+            <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/part1.jpg" alt="На ръка">
+          </div>
+        </a>
       </div>
+      <!-- Partner 2 -->
       <div class="partner-card reveal reveal-delay-2">
         <div class="partner-logo-wrap">
-          <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/part2.jpg" alt="Партньор 2">
+          <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/part2.jpg" alt="Пекарни Сиана">
         </div>
-        <h3>Пекарни Сиана</h3>
-        <p>Семейни пекарни с традиции, ръчна изработка и грижа към клиента.</p>
       </div>
     </div>
   </div>
@@ -1030,7 +1006,7 @@ footer .copyright {
       <div class="contact-detail">
         <h4>Работно време</h4>
         <p>Понеделник — Неделя</p>
-        <p>06:00 — 20:00</p>
+        <p>06:00 — 15:00</p>
       </div>
       <div class="contact-detail">
         <h4>Поръчки</h4>
