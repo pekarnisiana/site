@@ -150,7 +150,8 @@ nav.scrolled .hamburger span { background: var(--brown); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: url('https://i.imgur.com/kSCaM1Q.jpeg') center/cover no-repeat;
+  /* Using 2.jpg as Hero Background */
+  background: url('https://raw.githubusercontent.com/pekarnisiana/site/main/2.jpg') center/cover no-repeat;
   transform: scale(1.05);
   animation: heroZoom 25s ease-in-out infinite alternate;
 }
@@ -165,13 +166,20 @@ nav.scrolled .hamburger span { background: var(--brown); }
   z-index: 2;
   max-width: 720px;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-logo {
-  width: 180px;
+  /* Logo optimization logic */
+  width: auto;
+  max-width: 280px; /* Controlled width */
+  max-height: 160px; /* Controlled height */
   margin-bottom: 1.5rem;
   animation: fadeInDown 1s ease-out;
   filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+  object-fit: contain;
 }
 
 .hero h1 {
@@ -733,9 +741,11 @@ footer {
 
 .footer-logo {
   height: 65px;
+  width: auto;
   margin-bottom: 1rem;
-  opacity: 0.85;
-  filter: brightness(0) invert(1);
+  opacity: 0.9;
+  object-fit: contain;
+  /* Removed invert filter to show original logo colors/white */
 }
 
 footer p { font-size: 0.88rem; margin-bottom: 0.3rem; }
@@ -800,6 +810,9 @@ footer .copyright {
   
   .hamburger { display: flex; position: absolute; right: 2rem; }
   nav { justify-content: flex-end; }
+  
+  /* Mobile Logo Size Optimization */
+  .hero-logo { max-width: 180px; }
 }
 
 @media (max-width: 600px) {
@@ -812,6 +825,9 @@ footer .copyright {
   .partners-grid { flex-direction: column; align-items: center; }
   .partner-card { width: 100%; max-width: 100%; }
   .contact-details { gap: 2rem; }
+  
+  /* Further logo refinement for small screens */
+  .hero-logo { max-width: 150px; }
 }
 </style>
 </head>
@@ -839,7 +855,7 @@ footer .copyright {
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <img src="https://i.imgur.com/VAoGbhw.png" alt="Пекарни Сиана" class="hero-logo">
+    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/logoblank.png" alt="Пекарни Сиана" class="hero-logo">
     <h1>Пекарни Сиана</h1>
     <p class="subtitle">Семейна традиция от сърце</p>
     <a href="#products" class="hero-cta">Разгледай</a>
@@ -853,7 +869,7 @@ footer .copyright {
 <section id="about">
   <div class="about-grid">
     <div class="about-image reveal">
-      <img src="https://i.imgur.com/DFdGU2x.jpeg" alt="Пекарна Сиана">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/3.jpg" alt="Пекарна Сиана" loading="lazy">
     </div>
     <div class="about-text reveal reveal-delay-2">
       <p class="section-label">За нас</p>
@@ -888,27 +904,28 @@ footer .copyright {
   <div class="section-divider"></div>
   <div class="products-grid">
     <div class="product-card hero-card reveal">
-      <img src="https://i.imgur.com/kSCaM1Q.jpeg" alt="Питки със сусам">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/4.jpg" alt="Питки със сусам" loading="lazy">
       <div class="overlay"><span>Питки със сусам</span></div>
     </div>
     <div class="product-card reveal reveal-delay-1">
-      <img src="https://i.imgur.com/NpipMXt.jpeg" alt="Бутер баници">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/5.jpg" alt="Бутер баници" loading="lazy">
       <div class="overlay"><span>Бутер баници</span></div>
     </div>
     <div class="product-card reveal reveal-delay-2">
-      <img src="https://i.imgur.com/wacUOTj.jpeg" alt="Триъгълни баници">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/6.jpg" alt="Триъгълни баници" loading="lazy">
       <div class="overlay"><span>Триъгълни баници</span></div>
     </div>
+    <!-- Updated Title Here as Requested -->
     <div class="product-card reveal reveal-delay-1">
-      <img src="https://i.imgur.com/zF3fufE.jpeg" alt="Хлябове">
-      <div class="overlay"><span>Хлябове</span></div>
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/7.jpg" alt="Мит с Кренвирш" loading="lazy">
+      <div class="overlay"><span>Мит с Кренвирш</span></div>
     </div>
     <div class="product-card reveal reveal-delay-2">
-      <img src="https://i.imgur.com/KLxXQIx.jpeg" alt="Руло баници">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/8.jpg" alt="Руло баници" loading="lazy">
       <div class="overlay"><span>Руло баници</span></div>
     </div>
     <div class="product-card reveal reveal-delay-3">
-      <img src="https://i.imgur.com/J4xtd0n.jpeg" alt="Калцоне">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/9.jpg" alt="Калцоне" loading="lazy">
       <div class="overlay"><span>Калцоне</span></div>
     </div>
   </div>
@@ -921,7 +938,7 @@ footer .copyright {
   <div class="section-divider"></div>
   <div class="locations-grid">
     <div class="location-card reveal">
-      <img src="https://i.imgur.com/DFdGU2x.jpeg" alt="Обект 1">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/1.jpg" alt="Обект 1" loading="lazy">
       <div class="location-info">
         <h3>Пекарна Сиана — Обект 1</h3>
         <p>Топли закуски, изпечени на място. Заповядайте при нас!</p>
@@ -929,7 +946,7 @@ footer .copyright {
       </div>
     </div>
     <div class="location-card reveal reveal-delay-2">
-      <img src="https://i.imgur.com/gFCb6Xd.jpeg" alt="Обект 2">
+      <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/11.png" alt="Обект 2" loading="lazy">
       <div class="location-info">
         <h3>Пекарна Сиана — Обект 2</h3>
         <p>Семейна пекарна с разнообразие от баници и хлябове.</p>
@@ -988,7 +1005,7 @@ footer .copyright {
       </div>
       <div class="partner-card reveal reveal-delay-2">
         <div class="partner-logo-wrap">
-          <img src="https://i.imgur.com/VAoGbhw.png" alt="Пекарни Сиана">
+          <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/logoblank.png" alt="Пекарни Сиана">
         </div>
         <h3>Пекарни Сиана</h3>
         <p>Семейни пекарни с традиции, ръчна изработка и грижа към клиента.</p>
@@ -1023,7 +1040,7 @@ footer .copyright {
 
 <!-- Footer -->
 <footer>
-  <img src="https://i.imgur.com/VAoGbhw.png" alt="Пекарни Сиана" class="footer-logo">
+  <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/logoblank.png" alt="Пекарни Сиана" class="footer-logo">
   <p>Семейни пекарни Сиана</p>
   <p>Топли закуски, изпечени на място</p>
   <p class="copyright">© 2025 Пекарни Сиана. Всички права запазени.</p>
