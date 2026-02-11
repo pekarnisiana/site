@@ -51,7 +51,7 @@ nav {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; /* Increased z-index to ensure it's always on top */
+  z-index: 1000;
   padding: 1.1rem 2.5rem;
   display: flex;
   justify-content: center;
@@ -128,7 +128,7 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
   gap: 6px;
   cursor: pointer;
   z-index: 1001;
-  padding: 10px; /* Touch target size */
+  padding: 10px;
 }
 
 .hamburger span {
@@ -200,9 +200,12 @@ nav.scrolled .hamburger span { background: var(--brown); }
   animation: fadeInDown 2s ease-out;
   filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
   object-fit: contain;
-  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
   opacity: 0.95;
+  
+  /* Updated Radial Mask for a much smoother, feathered edge */
+  /* We pull the "transparent" stop in to 85% to ensure the hard edge is cut off */
+  -webkit-mask-image: radial-gradient(closest-side, black 35%, transparent 85%);
+  mask-image: radial-gradient(closest-side, black 35%, transparent 85%);
 }
 
 .hero h1 {
@@ -782,6 +785,19 @@ footer .copyright {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
+  /* HERO RESIZING FOR MOBILE */
+  .hero {
+    min-height: 500px; /* Reduced min-height for better fit */
+  }
+
+  .hero-bg {
+    /* Reducing animation scale or removing it could help, but kept subtle.
+       Ensuring attachment is standard to avoid glitches. */
+    animation: none; /* Disable zoom on mobile for stable 'rescallable' look */
+    transform: scale(1);
+    background-position: center center;
+  }
+
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about-image::before { display: none; }
   
@@ -899,7 +915,7 @@ footer .copyright {
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/logoblank.png" alt="Пекарни Сиана" class="hero-logo">
+    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/logo.png" alt="Пекарни Сиана" class="hero-logo">
     <h1>Пекарни Сиана</h1>
     <p class="subtitle">Семейна традиция от сърце</p>
     <a href="#products" class="hero-cta">Разгледай</a>
@@ -1066,7 +1082,7 @@ footer .copyright {
   <div class="section-divider"></div>
   <div class="contact-content reveal">
     <p>Приемаме поръчки за събития и специални поводи. Свържете се с нас за повече информация.</p>
-    <a href="tel:+359895000322" class="contact-phone">📞 +359 892999924</a>
+    <a href="tel:+359892999924" class="contact-phone">📞 +359892999924</a>
     <div class="contact-details">
       <div class="contact-detail">
         <h4>Работно време</h4>
