@@ -168,11 +168,8 @@ nav.scrolled .hamburger span { background: var(--brown); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  /* 1. Uses 14.png as the main image. 
-     2. Fallback to 10.png if 13.png fails.
-  */
-  background-image: 
-    url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png'),
+  /* Uses 14.png as the main image without fallbacks */
+  background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png');
   
   background-position: center center;
   background-size: cover;
