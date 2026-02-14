@@ -171,35 +171,38 @@ nav.scrolled .hamburger span { background: var(--brown); }
   /* Uses 14.png as the main image */
   background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png');
   
-  /* PERFECT CENTERING */
-  background-position: 50% 50%;
+  /* PERFECT CENTERING ADJUSTMENT 
+     50% 30% aligns the horizontal center but biases the vertical alignment towards the top (30%).
+     This effectively pushes the image texture DOWN, lowering the logo/text on the screen.
+  */
+  background-position: 50% 30%;
+  
   background-size: cover;
   background-repeat: no-repeat;
   
-  /* PARALLAX EFFECT (Desktop) */
+  /* PARALLAX EFFECT (Desktop) - Adds depth */
   background-attachment: fixed;
   
-  /* "SETTLE" ANIMATION 
-     Starts slightly larger (1.1) and settles to normal size (1).
-     This adds a premium feel without the infinite "growing too big" issue.
+  /* SETTLE ANIMATION
+     Subtle entrance from 1.08x to 1x to feel alive but professional.
   */
-  transform: scale(1);
-  animation: heroSettle 1.8s ease-out forwards;
+  transform-origin: 50% 30%; /* Matches background position */
+  animation: heroSettle 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes heroSettle {
-  0% { transform: scale(1.1); opacity: 0; }
+  0% { transform: scale(1.08); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
 /* Vignette Overlay:
-   Refined to spotlight the center (Logo) while darkening edges for focus.
+   Softens the edges to spotlight the center logo.
 */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, transparent 40%, rgba(61,43,31,0.2) 100%);
+  background: radial-gradient(circle, transparent 40%, rgba(61,43,31,0.25) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -209,13 +212,13 @@ nav.scrolled .hamburger span { background: var(--brown); }
   .hero-bg {
     /* Disable Parallax on mobile for performance and jitter-free scrolling */
     background-attachment: scroll;
-    /* Ensure center alignment holds strict on mobile portrait */
-    background-position: center center;
+    /* On mobile portrait, usually cover crops sides, so vertical alignment is strict.
+       We keep center center or slightly biased if needed. */
+    background-position: center 30%;
   }
 }
 
 .hero-content {
-  /* Content hidden as the image contains the text, but we keep the container structure */
   display: none; 
 }
 
