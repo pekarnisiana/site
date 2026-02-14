@@ -170,7 +170,7 @@ nav.scrolled .hamburger span { background: var(--brown); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png');
+  background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/15.png');
   
   /* POSITIONING:
      50% Horizontal (Center)
@@ -1093,6 +1093,15 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// Viewport height fix to prevent mobile background zoom on scroll
+function setVh() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('load', setVh);
+window.addEventListener('resize', setVh);
+
 </script>
 
 </body>
