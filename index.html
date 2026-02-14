@@ -78,13 +78,13 @@ nav.scrolled {
 
 .nav-links a {
   text-decoration: none;
-  color: white;
-  font-weight: 600;
+  color: var(--brown); 
+  font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: color 0.3s;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  text-shadow: none; 
   position: relative;
   white-space: nowrap;
 }
@@ -96,7 +96,7 @@ nav.scrolled {
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--gold-light);
+  background: var(--gold);
   transition: width 0.3s ease;
 }
 
@@ -109,14 +109,15 @@ nav.scrolled .nav-links a {
 
 nav.scrolled .nav-links a::after { background: var(--gold); }
 
-.nav-links a:hover { color: var(--gold-light); }
+.nav-links a:hover { color: var(--gold); }
 nav.scrolled .nav-links a:hover { color: var(--gold); }
 
 .nav-dot {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.5);
+  background: var(--brown);
+  opacity: 0.4;
   flex-shrink: 0;
 }
 
@@ -129,12 +130,14 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
   cursor: pointer;
   z-index: 1001;
   padding: 10px;
+  /* Added touch-action for better mobile response */
+  touch-action: manipulation;
 }
 
 .hamburger span {
   width: 26px;
   height: 2px;
-  background: white;
+  background: var(--brown);
   transition: all 0.3s ease-in-out;
   border-radius: 2px;
 }
@@ -149,128 +152,52 @@ nav.scrolled .hamburger span { background: var(--brown); }
 /* ===== HERO ===== */
 .hero {
   position: relative;
+  /* 100svh ensures it fits mobile screens perfectly without jumping when the URL bar hides/shows */
   height: 100vh;
-  min-height: 650px;
+  height: 100svh; 
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse at 30% 50%, rgba(200, 150, 30, 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 30%, rgba(200, 150, 30, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(61, 43, 31, 0.78) 0%, rgba(61, 43, 31, 0.55) 40%, rgba(139, 105, 20, 0.45) 100%);
-  z-index: 1;
+  /* Fallback color if image is missing */
+  background-color: var(--wheat);
 }
 
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/10.png') center/cover no-repeat;
-  transform: scale(1.05);
-  animation: heroZoom 25s ease-in-out infinite alternate;
+  /* 1. Uses 13.png as the main image. 
+     2. Fallback to 10.png if 13.png fails.
+  */
+  background-image: 
+    url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/13.png'),
+    url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/10.png');
+  
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+  /* Removed animation to prevent zooming/scaling issues */
+  transform: scale(1);
 }
 
-@keyframes heroZoom {
-  0% { transform: scale(1.05); }
-  100% { transform: scale(1.18); }
+/* Vignette Overlay:
+   Adds a subtle shadow around the edges to frame the center content.
+*/
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent 50%, rgba(61,43,31,0.15) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 720px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hero-logo {
-  width: auto;
-  max-width: 380px;
-  max-height: 240px;
-  margin-bottom: 1.5rem;
-  animation: fadeInDown 2s ease-out;
-  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
-  object-fit: contain;
-  opacity: 0.95;
-  
-  /* Updated Radial Mask for a much smoother, feathered edge */
-  /* We pull the "transparent" stop in to 85% to ensure the hard edge is cut off */
-  -webkit-mask-image: radial-gradient(closest-side, black 35%, transparent 85%);
-  mask-image: radial-gradient(closest-side, black 35%, transparent 85%);
-}
-
-.hero h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  color: white;
-  font-weight: 700;
-  line-height: 1.05;
-  margin-bottom: 0.6rem;
-  animation: fadeInDown 1s ease-out 0.2s both;
-  text-shadow: 0 3px 30px rgba(0,0,0,0.3);
-}
-
-.hero .subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-  color: var(--gold-light);
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 3px;
-  margin-bottom: 2.5rem;
-  animation: fadeInDown 1s ease-out 0.4s both;
-}
-
-.hero-cta {
-  display: inline-block;
-  padding: 1rem 3.5rem;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: white;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border-radius: 50px;
-  transition: all 0.4s ease;
-  animation: fadeInUp 1s ease-out 0.6s both;
-  box-shadow: 0 4px 25px rgba(200, 150, 30, 0.4);
-}
-
-.hero-cta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 35px rgba(200, 150, 30, 0.5);
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.scroll-indicator svg {
-  width: 28px;
-  height: 28px;
-  stroke: rgba(255,255,255,0.5);
-  fill: none;
-  stroke-width: 2;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(12px); }
+  /* Content hidden as the image contains the text, but we keep the container structure */
+  display: none; 
 }
 
 /* ===== SECTION COMMONS ===== */
@@ -482,7 +409,7 @@ section { padding: 7rem 2rem; }
   max-width: 1250px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Updated to 3 columns */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 2rem;
 }
 
@@ -524,7 +451,7 @@ section { padding: 7rem 2rem; }
 }
 
 .location-info .hours {
-  margin-top: auto; /* Pushes hours to bottom */
+  margin-top: auto; 
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -637,11 +564,11 @@ section { padding: 7rem 2rem; }
 }
 
 .partner-card {
-  flex: 0 1 auto; /* Allow shrink/grow but default to auto */
-  width: 260px;   /* Fixed width for just logos */
+  flex: 0 1 auto; 
+  width: 260px;   
   background: white;
   border-radius: 20px;
-  padding: 2rem;  /* Reduced padding for logo-only view */
+  padding: 2rem;  
   text-align: center;
   box-shadow: 0 8px 35px rgba(0,0,0,0.06);
   border: 1px solid rgba(200,150,30,0.1);
@@ -664,7 +591,7 @@ section { padding: 7rem 2rem; }
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0; /* Removed margin since text is gone */
+  margin-bottom: 0; 
 }
 
 .partner-logo-wrap img {
@@ -787,15 +714,17 @@ footer .copyright {
 @media (max-width: 900px) {
   /* HERO RESIZING FOR MOBILE */
   .hero {
-    min-height: 500px; /* Reduced min-height for better fit */
+    min-height: 500px; 
+    /* Keep it full height but respect mobile browser bars */
+    height: 100svh; 
   }
 
   .hero-bg {
-    /* Reducing animation scale or removing it could help, but kept subtle.
-       Ensuring attachment is standard to avoid glitches. */
-    animation: none; /* Disable zoom on mobile for stable 'rescallable' look */
-    transform: scale(1);
+    /* Retain animation on mobile */
     background-position: center center;
+    /* Ensure image covers the area, even if it cuts off sides of a wide image. 
+       This keeps the height correct. */
+    background-size: cover;
   }
 
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -809,10 +738,10 @@ footer .copyright {
   
   /* --- PROFESSIONAL MOBILE MENU --- */
   
-  nav { justify-content: flex-end; } /* Push hamburger to right */
+  nav { justify-content: flex-end; } 
 
   .hamburger {
-    display: flex; /* Visible on mobile */
+    display: flex; 
   }
 
   /* Mobile Dropdown Menu */
@@ -821,7 +750,7 @@ footer .copyright {
     top: 100%;
     left: 0;
     width: 100%;
-    background: rgba(253, 248, 240, 0.98); /* Cream/White background */
+    background: rgba(253, 248, 240, 0.98); 
     backdrop-filter: blur(15px);
     flex-direction: column;
     align-items: center;
@@ -834,6 +763,7 @@ footer .copyright {
     transform: translateY(-20px);
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
   }
 
   /* Animation State: Visible */
@@ -868,7 +798,6 @@ footer .copyright {
 
   .nav-dot { display: none; }
   
-  /* UPDATED Mobile Logo Size Optimization */
   .hero-logo { max-width: 240px; }
 }
 
@@ -883,7 +812,6 @@ footer .copyright {
   .partner-card { width: 100%; max-width: 100%; }
   .contact-details { gap: 2rem; }
   
-  /* UPDATED Further logo refinement for small screens */
   .hero-logo { max-width: 190px; }
 }
 </style>
@@ -915,14 +843,9 @@ footer .copyright {
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/logo.png" alt="Пекарни Сиана" class="hero-logo">
-    <h1>Пекарни Сиана</h1>
-    <p class="subtitle">Семейна традиция от сърце</p>
-    <a href="#products" class="hero-cta">Разгледай</a>
+    <!-- Content removed as requested (button and arrow gone) -->
   </div>
-  <div class="scroll-indicator">
-    <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </div>
+  <!-- Scroll indicator removed as requested -->
 </section>
 
 <!-- About -->
