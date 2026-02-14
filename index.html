@@ -168,27 +168,50 @@ nav.scrolled .hamburger span { background: var(--brown); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  /* Uses 14.png as the main image without fallbacks */
+  /* Uses 14.png as the main image */
   background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png');
   
-  background-position: center center;
+  /* PERFECT CENTERING */
+  background-position: 50% 50%;
   background-size: cover;
   background-repeat: no-repeat;
   
-  /* Removed animation to prevent zooming/scaling issues */
+  /* PARALLAX EFFECT (Desktop) */
+  background-attachment: fixed;
+  
+  /* "SETTLE" ANIMATION 
+     Starts slightly larger (1.1) and settles to normal size (1).
+     This adds a premium feel without the infinite "growing too big" issue.
+  */
   transform: scale(1);
+  animation: heroSettle 1.8s ease-out forwards;
+}
+
+@keyframes heroSettle {
+  0% { transform: scale(1.1); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* Vignette Overlay:
-   Adds a subtle shadow around the edges to frame the center content.
+   Refined to spotlight the center (Logo) while darkening edges for focus.
 */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, transparent 50%, rgba(61,43,31,0.15) 100%);
+  background: radial-gradient(circle, transparent 40%, rgba(61,43,31,0.2) 100%);
   pointer-events: none;
   z-index: 1;
+}
+
+/* Mobile Optimization for Hero Background */
+@media (hover: none) and (pointer: coarse) {
+  .hero-bg {
+    /* Disable Parallax on mobile for performance and jitter-free scrolling */
+    background-attachment: scroll;
+    /* Ensure center alignment holds strict on mobile portrait */
+    background-position: center center;
+  }
 }
 
 .hero-content {
