@@ -130,7 +130,6 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
   cursor: pointer;
   z-index: 1001;
   padding: 10px;
-  /* Added touch-action for better mobile response */
   touch-action: manipulation;
 }
 
@@ -152,50 +151,45 @@ nav.scrolled .hamburger span { background: var(--brown); }
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  /* 100svh ensures it fits mobile screens perfectly without jumping when the URL bar hides/shows */
+  /* Using standard 100vh instead of 100svh/100dvh prevents 
+     the background from resizing/jumping when the mobile address bar 
+     shows or hides during scroll. 
+  */
   height: 100vh;
-  height: 100svh; 
   min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  /* Fallback color if image is missing */
   background-color: var(--wheat);
 }
 
 .hero-bg {
   position: absolute;
   inset: 0;
-  /* Uses 14.png as the main image */
+  /* Main Hero Image */
   background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png');
   
-  /* PERFECT CENTERING ADJUSTMENT 
-     50% 30% aligns the horizontal center but biases the vertical alignment towards the top (30%).
+  /* Positioning: 50% Horizontal, 30% Vertical.
+     This centers the logo nicely while accounting for mobile spacing.
   */
   background-position: 50% 30%;
   
   background-size: cover;
   background-repeat: no-repeat;
   
-  /* DEFAULT: SCROLL (Stable on mobile) */
+  /* Attachment: SCROLL
+     This ensures the image moves with the page content.
+     It fixes the "glitchy zoom" on mobile and the "fixed" behavior on desktop.
+  */
   background-attachment: scroll;
   
-  /* No animation for maximum stability */
+  /* No animations for maximum stability */
   transform: none;
 }
 
-/* DESKTOP ONLY: Re-enable fixed parallax for larger screens */
-@media (min-width: 1025px) {
-  .hero-bg {
-    background-attachment: fixed;
-  }
-}
-
-/* Vignette Overlay:
-   Softens the edges to spotlight the center logo.
-*/
+/* Vignette Overlay */
 .hero::after {
   content: '';
   position: absolute;
@@ -725,7 +719,7 @@ footer .copyright {
   .hero {
     min-height: 500px; 
     /* Keep it full height but respect mobile browser bars */
-    height: 100svh; 
+    height: 100vh; 
   }
 
   .hero-bg {
