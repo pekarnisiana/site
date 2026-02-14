@@ -151,11 +151,13 @@ nav.scrolled .hamburger span { background: var(--brown); }
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  /* Using standard 100vh instead of 100svh/100dvh prevents 
-     the background from resizing/jumping when the mobile address bar 
-     shows or hides during scroll. 
+  /* STABILITY FIX:
+     100svh (Small Viewport Height) ensures the hero section
+     stays perfectly sized on mobile, ignoring the address bar
+     popping in/out. This prevents the "glitchy" jump.
   */
   height: 100vh;
+  height: 100svh; 
   min-height: 500px;
   display: flex;
   align-items: center;
@@ -168,25 +170,33 @@ nav.scrolled .hamburger span { background: var(--brown); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  /* Main Hero Image */
   background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/14.png');
   
-  /* Positioning: 50% Horizontal, 30% Vertical.
-     This centers the logo nicely while accounting for mobile spacing.
+  /* POSITIONING:
+     50% Horizontal (Center)
+     40% Vertical (Slightly above center)
+     This places the logo/text perfectly without being too high or low.
   */
-  background-position: 50% 30%;
+  background-position: 50% 40%;
   
+  /* SCALING:
+     'cover' fills the screen. No extra transforms or zooms are applied,
+     keeping it as "zoomed out" as possible while filling the area.
+  */
   background-size: cover;
   background-repeat: no-repeat;
   
-  /* Attachment: SCROLL
-     This ensures the image moves with the page content.
-     It fixes the "glitchy zoom" on mobile and the "fixed" behavior on desktop.
+  /* SCROLL FIX:
+     'scroll' locks the image to the page content.
+     'fixed' (parallax) is removed because it causes stuttering
+     and layout bugs on many mobile browsers.
   */
   background-attachment: scroll;
   
-  /* No animations for maximum stability */
-  transform: none;
+  /* PERFORMANCE:
+     Hints the browser to optimize for static positioning.
+  */
+  will-change: transform;
 }
 
 /* Vignette Overlay */
@@ -194,7 +204,7 @@ nav.scrolled .hamburger span { background: var(--brown); }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, transparent 40%, rgba(61,43,31,0.25) 100%);
+  background: radial-gradient(circle, transparent 45%, rgba(61,43,31,0.2) 100%);
   pointer-events: none;
   z-index: 1;
 }
