@@ -35,43 +35,36 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal overflow globally */
   overflow-x: hidden;
-  background: #d4b882;
 }
 
 body {
   font-family: 'Nunito', sans-serif;
   color: var(--text);
   background: var(--warm-white);
-  -webkit-font-smoothing: antialiased;
-  -webkit-overflow-scrolling: touch;
-  /* PAGE FRAME: caps width, centers content, adds gold border sides */
-  max-width: 1080px;
-  margin: 0 auto;
-  border-left: 5px solid rgba(200, 150, 30, 0.4);
-  border-right: 5px solid rgba(200, 150, 30, 0.4);
-  box-shadow: 0 0 60px rgba(0,0,0,0.4);
   overflow-x: hidden;
-  position: relative;
+  -webkit-font-smoothing: antialiased;
+  /* Prevent iOS bounce scroll from causing layout issues */
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* ===== NAVIGATION ===== */
 nav {
   position: fixed;
-  /* Align nav with the body frame by using the same max-width + centering */
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1080px;
-  /* Account for the 5px border on each side */
+  left: 0;
+  right: 0;
+  z-index: 1000;
   padding: 1.1rem 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
   background: transparent;
-  z-index: 1000;
+  width: 100%;
 }
 
 nav.scrolled {
@@ -158,91 +151,64 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
 /* ===== HERO ===== */
-/*
-  THE DEFINITIVE MOBILE ZOOM FIX:
-  iOS Safari zooms/repositions images inside fixed-height containers during
-  scroll because it recalculates layout when the browser chrome (address bar)
-  shows/hides. The only way to stop this is to NOT give the hero a fixed height.
-  Instead we let the image sit as a normal flow element at its natural ratio.
-  The hero is tall because the image IS tall — not because we forced it.
-  This means zero scaling, zero repositioning, zero zoom. Ever.
-*/
 .hero {
   position: relative;
-  width: 100%;
+  /* KEY FIX: Use 100dvh (dynamic viewport height) for modern browsers,
+     with fallback chain for older ones. This properly accounts for
+     mobile browser chrome (address bars) without jumping. */
+  height: 100vh;
+  height: 100dvh;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   overflow: hidden;
-  background: var(--brown);
-  border-bottom: 4px solid rgba(200, 150, 30, 0.5);
-  /* Clamp height: never taller than 95vh, never shorter than 420px */
-  max-height: 95vh;
+  background-color: var(--wheat);
+  /* Prevent hero from affecting page width */
+  width: 100%;
+  max-width: 100%;
 }
 
 .hero-bg {
-  position: relative;
-  width: 100%;
-  line-height: 0;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
+/* Using an <img> instead of background-image completely eliminates
+   the mobile zoom/scroll rendering bug. The image is pinned via
+   object-fit and never repaints on scroll. */
 .hero-bg img {
   width: 100%;
-  height: auto;          /* Natural ratio — browser has nothing to recalculate */
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
   display: block;
+  transform: none;
+  will-change: auto;
   pointer-events: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* Bottom gradient fade into next section */
-.hero::before {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 30%;
-  background: linear-gradient(to bottom, transparent, rgba(61,43,31,0.3));
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Edge vignette */
+/* Vignette Overlay */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(30,18,8,0.2) 100%);
+  background: radial-gradient(circle, transparent 45%, rgba(61,43,31,0.2) 100%);
   pointer-events: none;
   z-index: 1;
-}
-
-/* Scroll hint */
-.hero-scroll-hint {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  animation: scrollBounce 2s ease-in-out infinite;
-}
-
-.hero-scroll-hint span {
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-right: 2px solid rgba(255,255,255,0.75);
-  border-bottom: 2px solid rgba(255,255,255,0.75);
-  transform: rotate(45deg);
-}
-
-@keyframes scrollBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
-  50%       { transform: translateX(-50%) translateY(8px); opacity: 1; }
 }
 
 .hero-content { display: none; }
 
 /* ===== SECTION COMMONS ===== */
 section {
-  padding: 5rem 2rem;
+  padding: 7rem 2rem;
   width: 100%;
+  max-width: 100%;
   overflow: hidden;
 }
 
@@ -295,11 +261,11 @@ section {
 }
 
 .about-grid {
-  max-width: 980px;
+  max-width: 1100px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3.5rem;
+  gap: 5rem;
   align-items: center;
   position: relative;
   z-index: 1;
@@ -314,7 +280,7 @@ section {
 
 .about-image img {
   width: 100%;
-  height: 360px;
+  height: 450px;
   object-fit: cover;
   display: block;
   transition: transform 0.8s ease;
@@ -389,11 +355,11 @@ section {
 #products { background: var(--warm-white); }
 
 .products-grid {
-  max-width: 980px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.9rem;
+  gap: 1.2rem;
 }
 
 .product-card {
@@ -446,31 +412,31 @@ section {
 #locations { background: var(--cream); }
 
 .locations-grid {
-  max-width: 1000px;
+  max-width: 1250px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .location-card {
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
   background: white;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.07);
   transition: transform 0.5s ease, box-shadow 0.5s ease;
   display: flex;
   flex-direction: column;
 }
 
 .location-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
 }
 
 .location-card img {
   width: 100%;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
 }
 
@@ -693,7 +659,7 @@ section {
   color: white;
   position: relative;
   overflow: hidden;
-  padding: 5rem 2rem;
+  padding: 6rem 2rem;
 }
 
 #pricing::before {
@@ -886,45 +852,41 @@ footer .copyright {
 
   .nav-dot { display: none; }
 
-  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about-image::before { display: none; }
-  .about-image img { height: 280px; }
 
   .products-grid { grid-template-columns: 1fr 1fr; }
   .product-card.hero-card { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
 
-  .locations-grid { grid-template-columns: 1fr; max-width: 480px; }
-  .values-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 380px; }
+  .locations-grid { grid-template-columns: 1fr; max-width: 550px; }
+  .values-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 400px; }
 
-  .pricing-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
 }
 
 /* ===== RESPONSIVE — Mobile ===== */
 @media (max-width: 600px) {
-  /* On mobile the body border would eat into limited screen width — remove it */
-  body {
-    border-left: 3px solid rgba(200, 150, 30, 0.3);
-    border-right: 3px solid rgba(200, 150, 30, 0.3);
-  }
-
-  section { padding: 4rem 1.25rem; }
+  section { padding: 5rem 1.25rem; }
 
   .products-grid { grid-template-columns: 1fr; }
   .product-card.hero-card { grid-column: span 1; aspect-ratio: 4/3; }
   .product-card { aspect-ratio: 4/3; }
 
-  .about-features { flex-direction: column; gap: 1.2rem; }
-  .about-image img { height: 240px; }
-  .about-text h2 { font-size: 1.8rem; }
+  .about-features { flex-direction: column; gap: 1.5rem; }
+  .about-image img { height: 300px; }
+  .about-text h2 { font-size: 2rem; }
 
-  .contact-phone { font-size: 1.6rem; }
-  .contact-details { gap: 1.5rem; }
+  .contact-phone { font-size: 1.8rem; }
+  .contact-details { gap: 2rem; }
 
   .partners-grid { flex-direction: column; align-items: center; }
   .partner-card { width: 100%; max-width: 100%; }
 
   .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
-  .pricing-card { padding: 1.5rem 1.2rem; }
+  .pricing-card { padding: 1.8rem 1.5rem; }
+
+  /* Fix hero on small screens */
+  .hero { min-height: 400px; }
 }
 
 /* ===== SAFE AREA INSETS (iPhone notch/home bar) ===== */
@@ -956,12 +918,9 @@ footer .copyright {
 <!-- Hero -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/16.png" alt="Пекарни Сиана" fetchpriority="high">
+    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/15.png" alt="" aria-hidden="true" fetchpriority="high">
   </div>
   <div class="hero-content"></div>
-  <div class="hero-scroll-hint">
-    <span></span>
-  </div>
 </section>
 
 <!-- About -->
