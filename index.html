@@ -173,16 +173,23 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://raw.githubusercontent.com/pekarnisiana/site/main/images/15.png');
-  background-position: 50% 40%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* CRITICAL FIX: Never use 'fixed' on mobile — causes rendering bugs.
-     'scroll' is stable across all devices. */
-  background-attachment: scroll;
-  /* Prevent subpixel rendering issues */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  overflow: hidden;
+}
+
+/* Using an <img> instead of background-image completely eliminates
+   the mobile zoom/scroll rendering bug. The image is pinned via
+   object-fit and never repaints on scroll. */
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  display: block;
+  transform: none;
+  will-change: auto;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Vignette Overlay */
@@ -910,7 +917,9 @@ footer .copyright {
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <img src="https://raw.githubusercontent.com/pekarnisiana/site/main/images/15.png" alt="" aria-hidden="true" fetchpriority="high">
+  </div>
   <div class="hero-content"></div>
 </section>
 
