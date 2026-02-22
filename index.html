@@ -36,8 +36,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  /* Dark warm gutter visible on very wide screens */
-  background: #1e1208;
+  background: #d4b882;
 }
 
 body {
@@ -159,80 +158,68 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
 /* ===== HERO ===== */
+/*
+  THE DEFINITIVE MOBILE ZOOM FIX:
+  iOS Safari zooms/repositions images inside fixed-height containers during
+  scroll because it recalculates layout when the browser chrome (address bar)
+  shows/hides. The only way to stop this is to NOT give the hero a fixed height.
+  Instead we let the image sit as a normal flow element at its natural ratio.
+  The hero is tall because the image IS tall — not because we forced it.
+  This means zero scaling, zero repositioning, zero zoom. Ever.
+*/
 .hero {
   position: relative;
   width: 100%;
-  /* Full welcome screen height — the image is tall enough to fill this
-     without needing to scale up, so no zoom bug occurs */
-  height: 100vh;
-  height: 100svh;
-  min-height: 560px;
   overflow: hidden;
   background: var(--brown);
   border-bottom: 4px solid rgba(200, 150, 30, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* Clamp height: never taller than 95vh, never shorter than 420px */
+  max-height: 95vh;
 }
 
 .hero-bg {
-  position: absolute;
-  inset: 0;
-  /* KEY: translate3d forces GPU compositing layer.
-     The image is painted once and never touched again during scroll. */
-  transform: translate3d(0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  position: relative;
+  width: 100%;
+  line-height: 0;
 }
 
 .hero-bg img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Center on the logo which sits in the upper-center of the image */
-  object-position: center 35%;
+  height: auto;          /* Natural ratio — browser has nothing to recalculate */
   display: block;
   pointer-events: none;
   -webkit-user-select: none;
   user-select: none;
-  /* Force GPU layer for the image itself too */
-  transform: translate3d(0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
 }
 
-/* Bottom gradient fade — blends hero into next section */
+/* Bottom gradient fade into next section */
 .hero::before {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 35%;
-  background: linear-gradient(to bottom, transparent, rgba(61,43,31,0.35));
+  height: 30%;
+  background: linear-gradient(to bottom, transparent, rgba(61,43,31,0.3));
   pointer-events: none;
   z-index: 2;
 }
 
-/* Subtle edge vignette */
+/* Edge vignette */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(30,18,8,0.25) 100%);
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(30,18,8,0.2) 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Scroll hint arrow at the bottom */
+/* Scroll hint */
 .hero-scroll-hint {
   position: absolute;
-  bottom: 2rem;
+  bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
   animation: scrollBounce 2s ease-in-out infinite;
 }
 
@@ -240,14 +227,14 @@ nav.scrolled .nav-dot { background: var(--gold); opacity: 0.35; }
   display: block;
   width: 20px;
   height: 20px;
-  border-right: 2px solid rgba(255,255,255,0.7);
-  border-bottom: 2px solid rgba(255,255,255,0.7);
+  border-right: 2px solid rgba(255,255,255,0.75);
+  border-bottom: 2px solid rgba(255,255,255,0.75);
   transform: rotate(45deg);
 }
 
 @keyframes scrollBounce {
   0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
-  50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+  50%       { transform: translateX(-50%) translateY(8px); opacity: 1; }
 }
 
 .hero-content { display: none; }
@@ -903,9 +890,6 @@ footer .copyright {
   .about-image::before { display: none; }
   .about-image img { height: 280px; }
 
-  /* Hero stays full screen on tablet too */
-  .hero { min-height: 480px; }
-
   .products-grid { grid-template-columns: 1fr 1fr; }
   .product-card.hero-card { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
 
@@ -935,9 +919,6 @@ footer .copyright {
 
   .contact-phone { font-size: 1.6rem; }
   .contact-details { gap: 1.5rem; }
-
-  /* Hero on small phones */
-  .hero { min-height: 380px; height: 100svh; }
 
   .partners-grid { flex-direction: column; align-items: center; }
   .partner-card { width: 100%; max-width: 100%; }
