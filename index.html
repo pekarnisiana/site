@@ -50,6 +50,8 @@ html {
   text-size-adjust: 100%;
   /* Smooth scroll only when the user hasn't asked for reduced motion */
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -57,7 +59,8 @@ body {
   color: var(--fg);
   background: var(--bg);
   /* clip instead of hidden — doesn't create a new scroll container, safe on iOS */
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
   /* pan-y = vertical scroll only, manipulation = no double-tap zoom anywhere on the page */
   touch-action: pan-y;
@@ -145,10 +148,26 @@ nav {
   z-index: 1000;
   padding: 1.2rem 3rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   transition: all 0.4s ease;
   touch-action: manipulation; /* prevents 300ms delay + double-tap zoom on nav */
+}
+
+.nav-logo {
+  height: 40px;
+  width: auto;
+  transition: all 0.3s ease;
+  z-index: 1002;
+}
+.nav-logo img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+nav.scrolled .nav-logo img {
+  filter: none;
 }
 
 nav.scrolled {
@@ -984,7 +1003,7 @@ footer {
   border-top: 1px solid rgba(196,139,54,0.15);
 }
 .footer-logo {
-  height: 72px;
+  height: 120px;
   width: auto;
   margin-bottom: 1.2rem;
   opacity: 0.88;
@@ -1027,6 +1046,7 @@ footer .copyright {
   z-index: 2;
   margin-bottom: -2px;
   line-height: 0;
+  overflow: hidden;
 }
 .section-torn-top svg { display: block; width: 100%; }
 
@@ -1190,6 +1210,9 @@ footer .copyright {
 
 <!-- ══ NAVIGATION ══ -->
 <nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="./logoblank.png" alt="Пекарни Сиана">
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">За нас</a></li>
     <li><span class="nav-gem"></span></li>
@@ -1409,7 +1432,7 @@ footer .copyright {
           <p>Нашият нов уютен обект. Очакваме ви с нетърпение!</p>
           <div class="location-hours">🕐 06:00 — 15:00</div>
           <div class="location-map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11846.905604473856!2d24.77977465823126!3d42.13459954707011!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a039230554897f%3A0xc39589d8856a9578!2z0J_QtdC60LDRgNC90Lgg0KHQuNCw0L3QsCDQotGA0LDQutC40Y8!5e0!3m2!1sbg!2sbg!4v1713951000000!5m2!1sbg!2sbg" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://maps.google.com/maps?q=42.130836,24.789145&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       </div>
